@@ -7,25 +7,26 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
+import de.cdlemmi.vte.rendering.Renderer;
+
 public class Game {
 
     private long window;
+    private Renderer renderer;
 
     Game() {
         //init glfw stuff
         initWindow();
 
         //init opengl stuff
-        createCapabilities();
+        renderer = new Renderer(window);
     }
 
     void start() {
-        glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
         while (!glfwWindowShouldClose(window)) {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
 
-            glfwSwapBuffers(window); // swap the color buffers
+            renderer.render();
 
             glfwPollEvents();
         }

@@ -30,7 +30,7 @@ public class Game {
     }
 
     void start() {
-        DeltaTimer deltaTimer = new DeltaTimer(inputHandler);
+        DeltaTimer deltaTimer = new DeltaTimer(0.5, inputHandler);
         while (!glfwWindowShouldClose(window)) {
             double dt = deltaTimer.getDeltaTime();
 

@@ -1,5 +1,6 @@
 package de.cdlemmi.vte;
 
+import de.cdlemmi.vte.util.DeltaTimer;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -23,8 +24,9 @@ public class Game {
     }
 
     void start() {
+        DeltaTimer deltaTimer = new DeltaTimer();
         while (!glfwWindowShouldClose(window)) {
-
+            double dt = deltaTimer.getDeltaTime();
 
             renderer.render();
 
@@ -39,8 +41,8 @@ public class Game {
         window = glfwCreateWindow(800, 800, "Voxel Terrain Engine", NULL, NULL);
 
 
-        glfwSwapInterval(0);
         glfwMakeContextCurrent(window);
+        glfwSwapInterval(0);
     }
 
 

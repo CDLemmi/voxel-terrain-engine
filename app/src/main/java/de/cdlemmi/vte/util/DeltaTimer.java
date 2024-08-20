@@ -8,8 +8,23 @@ public class DeltaTimer {
     private long lastDebugTime;
     private long debugInterval = 1000000000;
 
+    DebugPrinting[] debugPrintings;
+
     public DeltaTimer() {
+        this(new DebugPrinting[0]);
+    }
+
+    public DeltaTimer(DebugPrinting... debugPrintings) {
+        this.debugPrintings = debugPrintings;
         lastTime = System.nanoTime();
+    }
+
+    private void debugPrint() {
+        System.out.println("----------Debug Information:");
+        System.out.println("Average FPS: " + frames);
+        for(DebugPrinting debugPrinting : debugPrintings) {
+            debugPrinting.printDebug();
+        }
     }
 
     public double getDeltaTime() {
@@ -18,7 +33,7 @@ public class DeltaTimer {
         long interval = currentTime - lastTime;
         lastTime = currentTime;
         if(currentTime - debugInterval > lastDebugTime) {
-            System.out.println("Average FPS: " + frames);
+            debugPrint();
             frames = 0;
             lastDebugTime = currentTime - currentTime%debugInterval + debugInterval;
         }

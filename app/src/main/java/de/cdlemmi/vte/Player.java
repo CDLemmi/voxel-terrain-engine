@@ -77,8 +77,8 @@ public class Player implements DebugPrinting {
 
     @Override
     public void printDebug() {
-        System.out.println(String.format("Player status: pos:{x=%.2f;y=%.2f;z=%.2f},", posX, posY, posZ));
-        System.out.println(String.format("               rot:{hor:%.2f;ver:%.2f},", angleHor, angleVer));
-        System.out.println(String.format("               vel:{x=%.2f;y=%.2f;z=%.2f}", velX, velY, velZ));
+        System.out.printf("Player status: pos:{x=%.2f;y=%.2f;z=%.2f},%n", posX, posY, posZ);
+        System.out.printf("               rot:{hor:%.2f;ver:%.2f},", angleHor, angleVer);
+        System.out.printf("               vel:{x=%.2f;y=%.2f;z=%.2f}", velX, velY, velZ);
     }
 }

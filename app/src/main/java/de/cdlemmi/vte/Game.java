@@ -3,11 +3,8 @@ package de.cdlemmi.vte;
 import de.cdlemmi.vte.input.InputHandler;
 import de.cdlemmi.vte.input.PlayerInputAction;
 import de.cdlemmi.vte.util.DeltaTimer;
-import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import de.cdlemmi.vte.rendering.Renderer;

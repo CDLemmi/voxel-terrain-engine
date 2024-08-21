@@ -21,6 +21,9 @@ public class InputHandler implements GLFWKeyCallbackI, DebugPrinting {
         glfwSetKeyCallback(window, this);
     }
 
+    public PlayerInputAction pollPlayerInputAction() {
+        return new PlayerInputAction(pressedForward, pressedBack, pressedLeft, pressedRight, pressedUp, pressedDown);
+    }
 
     @Override
     public void invoke(long window, int key, int scancode, int action, int mods) {
@@ -36,7 +39,6 @@ public class InputHandler implements GLFWKeyCallbackI, DebugPrinting {
 
     @Override
     public void printDebug() {
-        System.out.println(String.format("currently pressed: forward=%B;back=%B;right=%B;left=%B;up=%B;down=%B",
-                pressedForward, pressedBack, pressedRight, pressedLeft, pressedUp, pressedDown));
+        System.out.println("player input: " + pollPlayerInputAction());
     }
 }

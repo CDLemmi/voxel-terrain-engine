@@ -1,6 +1,7 @@
 package de.cdlemmi.vte;
 
 import de.cdlemmi.vte.input.InputHandler;
+import de.cdlemmi.vte.input.PlayerInputAction;
 import de.cdlemmi.vte.util.DeltaTimer;
 import org.lwjgl.opengl.GL;
 
@@ -16,6 +17,7 @@ public class Game {
     private long window;
     private Renderer renderer;
     private InputHandler inputHandler;
+    private Player player;
 
     Game() {
         //init glfw stuff
@@ -27,12 +29,19 @@ public class Game {
         //init input handling
         inputHandler = new InputHandler(window);
 
+        //init player
+        player = new Player();
+
     }
 
     void start() {
-        DeltaTimer deltaTimer = new DeltaTimer(0.5, inputHandler);
+        DeltaTimer deltaTimer = new DeltaTimer(0.5, inputHandler, player);
         while (!glfwWindowShouldClose(window)) {
             double dt = deltaTimer.getDeltaTime();
+
+            PlayerInputAction inputAction = inputHandler.pollPlayerInputAction();
+            player.handleInput(inputAction);
+            player.doStep(dt);
 
             renderer.render();
 

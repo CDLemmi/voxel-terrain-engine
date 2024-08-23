@@ -2,6 +2,7 @@ package de.cdlemmi.vte;
 
 import de.cdlemmi.vte.input.PlayerInputAction;
 import de.cdlemmi.vte.util.DebugPrinting;
+import org.joml.Matrix4f;
 
 public class Player implements DebugPrinting {
 
@@ -23,6 +24,15 @@ public class Player implements DebugPrinting {
     private boolean pressedLeft;
     private boolean pressedUp;
     private boolean pressedDown;
+
+
+    public Matrix4f getView() {
+        Matrix4f trans = new Matrix4f().translate((float) posX, (float) posY, (float) posZ);
+        Matrix4f rot = new Matrix4f()
+                .rotate((float)angleVer, 0.0f, 0.0f, 1.0f)
+                .rotate((float)angleVer, 1.0f, 0.0f, 0.0f);
+        return trans.mul(rot);
+    }
 
     public void handleInput(PlayerInputAction action) {
         pressedForward = action.forward();
@@ -77,8 +87,8 @@ public class Player implements DebugPrinting {
 
     @Override
     public void printDebug() {
-        System.out.printf("Player status: pos:{x=%.2f;y=%.2f;z=%.2f},%n", posX, posY, posZ);
-        System.out.printf("               rot:{hor:%.2f;ver:%.2f},", angleHor, angleVer);
-        System.out.printf("               vel:{x=%.2f;y=%.2f;z=%.2f}", velX, velY, velZ);
+        System.out.printf("Player status: pos:{x=%.2f;y=%.2f;z=%.2f},\n", posX, posY, posZ);
+        System.out.printf("               rot:{hor:%.2f;ver:%.2f},\n", angleHor, angleVer);
+        System.out.printf("               vel:{x=%.2f;y=%.2f;z=%.2f}\n", velX, velY, velZ);
     }
 }

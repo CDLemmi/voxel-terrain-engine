@@ -2,6 +2,7 @@ package de.cdlemmi.vte.rendering;
 
 
 import de.cdlemmi.vte.rendering.abstractions.*;
+import org.joml.Matrix4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -14,9 +15,10 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class Renderer {
     private long window;
 
-    Shader shader;
-    VertexArray vertexArray;
-    VertexBuffer vb;
+    private Shader shader;
+    private Matrix4f proj;
+
+    ChunkRenderer chunkRenderer;
 
     public Renderer(long window) {
         this.window = window;
@@ -25,28 +27,26 @@ public class Renderer {
 
         initDebugCallback();
 
+        chunkRenderer = new ChunkRenderer();
+
         glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
 
         shader = new Shader();
-        vb = new VertexBuffer(new float[] {
-                 0.f,  0.5f, 1.0f, 0.0f, 0.0f,
-                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-                -0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-
-        });
-        VertexBufferLayout layout = new VertexBufferLayout();
-        layout.pushFloat(2);
-        layout.pushFloat(3);
-        vertexArray = new VertexArray(vb, layout);
+        proj = new Matrix4f().perspective((float)Math.PI/4, 1.0f, 0.1f, 100.0f);
+        shader.setUniform(proj, "proj");
     }
 
-    public void render() {
+    public void render(Matrix4f view) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
         shader.bind();
-        vertexArray.bind();
+        shader.setUniform(view, "view");
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        chunkRenderer.renderChunks();
+
+        //vertexArray.bind();
+
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
 
         /*glBegin(GL_TRIANGLES);
         glColor3d(1.0, 0.1, 0.1);

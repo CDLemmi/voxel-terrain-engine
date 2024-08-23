@@ -37,6 +37,8 @@ dependencies {
 	runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
 	runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 
+    implementation group: 'org.joml', name: 'joml', version: '1.10.8'
+
     // Use the latest Groovy version for Spock testing
     testImplementation libs.groovy
 

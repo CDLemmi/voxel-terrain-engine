@@ -1,5 +1,6 @@
 package de.cdlemmi.vte.rendering.abstractions;
 
+import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 import static org.lwjgl.opengl.GL33.*;
 
@@ -20,6 +21,14 @@ public class Shader {
 
     public void bind() {
         glUseProgram(program);
+    }
+
+
+    public void setUniform(Matrix4f mat, String address) {
+        int location = glGetUniformLocation(program, address);
+        try(MemoryStack stack = MemoryStack.stackPush()) {
+            glUniformMatrix4fv(location, false, mat.get(stack.mallocFloat(16)));
+        }
     }
 
 

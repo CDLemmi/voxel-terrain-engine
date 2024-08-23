@@ -8,6 +8,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 import de.cdlemmi.vte.rendering.Renderer;
+import org.joml.Matrix4f;
 
 public class Game {
 
@@ -40,7 +41,9 @@ public class Game {
             player.handleInput(inputAction);
             player.doStep(dt);
 
-            renderer.render();
+            //var view = player.getView();
+            var view = new Matrix4f().translate(0.0f,0,6.0f);
+            renderer.render(view);
 
             glfwPollEvents();
         }

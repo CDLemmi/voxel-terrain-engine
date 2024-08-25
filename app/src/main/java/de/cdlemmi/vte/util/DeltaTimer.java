@@ -37,7 +37,7 @@ public class DeltaTimer {
         long interval = currentTime - lastTime;
         lastTime = currentTime;
         if(currentTime - debugIntervalNS > lastDebugTime) {
-            //debugPrint();
+            debugPrint();
             frames = 0;
             lastDebugTime = currentTime - currentTime%debugIntervalNS;
         }

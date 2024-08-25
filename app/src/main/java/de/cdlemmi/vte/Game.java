@@ -9,6 +9,7 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 import de.cdlemmi.vte.rendering.Renderer;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 public class Game {
 
@@ -33,7 +34,7 @@ public class Game {
     }
 
     void start() {
-        DeltaTimer deltaTimer = new DeltaTimer(10, inputHandler, player);
+        DeltaTimer deltaTimer = new DeltaTimer(1, inputHandler, player);
         while (!glfwWindowShouldClose(window)) {
             double dt = deltaTimer.getDeltaTime();
 
@@ -41,8 +42,8 @@ public class Game {
             player.handleInput(inputAction);
             player.doStep(dt);
 
-            //var view = player.getView();
-            var view = new Matrix4f().translate(0.0f,0.0f,-10.0f);
+            var view = player.getView();
+            //var view = new Matrix4f().translate(0.0f,0.0f,-10.0f).rotate((float)Math.PI/3.0f, new Vector3f(1.0f, 1.8f, 0.0f).normalize());
 
             renderer.render(view);
 

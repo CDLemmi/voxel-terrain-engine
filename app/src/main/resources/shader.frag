@@ -1,12 +1,12 @@
 #version 330 core
 
 
-in float greenTone;
+in vec2 greenTone;
 out vec4 FragColor;
 
 
 
 void main()
 {
-    FragColor = vec4(0.0, greenTone, 0.0, 0.5);
+    FragColor = vec4(greenTone.y, greenTone.x, 0.0, 0.5);
 }

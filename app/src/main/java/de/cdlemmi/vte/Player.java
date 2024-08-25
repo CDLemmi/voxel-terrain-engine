@@ -2,17 +2,19 @@ package de.cdlemmi.vte;
 
 import de.cdlemmi.vte.input.PlayerInputAction;
 import de.cdlemmi.vte.util.DebugPrinting;
+import de.cdlemmi.vte.util.Util;
 import org.joml.Matrix4f;
 
 public class Player implements DebugPrinting {
 
-    public final static double MOVE_SPEED = 1.0;
+    final static double MOVE_SPEED = 3.0;
+    final static double MOUSE_SENSITIVITY = 0.004;
 
-    private double posX;
+    private double posX = -10;
     private double posY;
     private double posZ;
-    private double angleVer;
-    private double angleHor;
+    private double angleVer = 0.0;
+    private double angleHor = 0.3;
 
     private double velX;
     private double velY;
@@ -27,11 +29,14 @@ public class Player implements DebugPrinting {
 
 
     public Matrix4f getView() {
-        Matrix4f trans = new Matrix4f().translate((float) posX, (float) posY, (float) posZ);
-        Matrix4f rot = new Matrix4f()
-                .rotate((float)angleVer, 0.0f, 0.0f, 1.0f)
-                .rotate((float)angleVer, 1.0f, 0.0f, 0.0f);
-        return trans.mul(rot);
+        var correction = new Matrix4f().rotate((float) (Math.PI/2.0), 0.0f, -1.0f, 0.0f)
+                .rotate((float) (Math.PI/2.0), 1.0f, 0.0f, 0.0f);
+        var trans = new Matrix4f()
+                .translate((float) posX, (float) posY, (float) posZ);
+        var rot = new Matrix4f()
+                .rotate((float)angleVer, 0.0f, 1.0f, 0.0f)
+                .rotate((float)angleHor, 0.0f, 0.0f, -1.0f);
+        return correction.mul(rot.mul(trans));
     }
 
     public void handleInput(PlayerInputAction action) {
@@ -41,6 +46,10 @@ public class Player implements DebugPrinting {
         pressedLeft = action.left();
         pressedUp = action.up();
         pressedDown = action.down();
+        angleHor += action.turnX() * MOUSE_SENSITIVITY;
+        angleHor = Util.wrap(angleHor, -Math.PI, Math.PI);
+        angleVer += action.turnY() * MOUSE_SENSITIVITY;
+        angleVer = Util.limit(angleVer, -Math.PI/2, Math.PI/2);
     }
 
     public void doStep(double dt) {
@@ -55,12 +64,12 @@ public class Player implements DebugPrinting {
             velY -= MOVE_SPEED * Math.sin(angleHor);
         }
         if(pressedRight) {
-            velX += MOVE_SPEED * Math.sin(angleHor);
-            velY += MOVE_SPEED * -Math.cos(angleHor);
-        }
-        if(pressedLeft) {
             velX -= MOVE_SPEED * Math.sin(angleHor);
             velY -= MOVE_SPEED * -Math.cos(angleHor);
+        }
+        if(pressedLeft) {
+            velX += MOVE_SPEED * Math.sin(angleHor);
+            velY += MOVE_SPEED * -Math.cos(angleHor);
         }
 
         velZ = 0;

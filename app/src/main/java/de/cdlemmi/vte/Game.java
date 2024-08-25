@@ -33,7 +33,7 @@ public class Game {
     }
 
     void start() {
-        DeltaTimer deltaTimer = new DeltaTimer(0.5, inputHandler, player);
+        DeltaTimer deltaTimer = new DeltaTimer(10, inputHandler, player);
         while (!glfwWindowShouldClose(window)) {
             double dt = deltaTimer.getDeltaTime();
 
@@ -42,7 +42,8 @@ public class Game {
             player.doStep(dt);
 
             //var view = player.getView();
-            var view = new Matrix4f().translate(0.0f,0,6.0f);
+            var view = new Matrix4f().translate(0.0f,0.0f,-10.0f);
+
             renderer.render(view);
 
             glfwPollEvents();
@@ -53,6 +54,7 @@ public class Game {
         if ( !glfwInit() )
             throw new IllegalStateException("Unable to initialize GLFW");
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will be resizable
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
         window = glfwCreateWindow(800, 800, "Voxel Terrain Engine", NULL, NULL);
 
 

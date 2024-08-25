@@ -25,14 +25,19 @@ public class Renderer {
 
         createCapabilities();
 
+
         initDebugCallback();
 
         chunkRenderer = new ChunkRenderer();
 
+        glEnable(GL_DEPTH_TEST);
         glClearColor(0.3f, 0.3f, 0.3f, 0.0f);
 
         shader = new Shader();
-        proj = new Matrix4f().perspective((float)Math.PI/4, 1.0f, 0.1f, 100.0f);
+        proj = new Matrix4f().perspective(1.0f, 1.0f, 0.1f, 40.0f);
+        //proj = new Matrix4f().translate(0.3f, 0.1f, -1.6f);
+        //proj = new Matrix4f().frustum(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 0.8f);
+        shader.bind();
         shader.setUniform(proj, "proj");
     }
 
@@ -40,6 +45,8 @@ public class Renderer {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
         shader.bind();
+
+
         shader.setUniform(view, "view");
 
         chunkRenderer.renderChunks();
@@ -59,6 +66,7 @@ public class Renderer {
     }
 
     private void initDebugCallback() {
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback((source, type, id, severity, length, message, userParam) -> {
             System.out.println("OpenGL debug callback message: ");
             System.out.println("source: " + source);
@@ -67,7 +75,12 @@ public class Renderer {
             System.out.println("severity" + severity);
             String msg = memUTF8(message, length);
             System.out.println("message: " + msg);
+            if(severity != GL_DEBUG_SEVERITY_NOTIFICATION) {
+                throw new RuntimeException();
+            }
         }, 0);
     }
+
+
 
 }

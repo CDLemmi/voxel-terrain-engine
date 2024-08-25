@@ -4,8 +4,9 @@ import de.cdlemmi.vte.rendering.abstractions.VertexArray;
 import de.cdlemmi.vte.rendering.abstractions.VertexBuffer;
 import de.cdlemmi.vte.rendering.abstractions.VertexBufferLayout;
 
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
+import javax.management.relation.RelationServiceNotRegisteredException;
+
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11C.glDrawElements;
 
 public class ChunkMesh {
@@ -67,7 +68,7 @@ public class ChunkMesh {
 
     public void render() {
         vertexArray.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 6 * 6 * 4);
+        glDrawArrays(GL_TRIANGLES, 6, 6);
     }
 
 }

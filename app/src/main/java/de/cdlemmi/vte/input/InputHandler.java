@@ -60,7 +60,7 @@ public class InputHandler implements DebugPrinting {
     }
 
     public void handleMouseButton(long window, int button, int action, int mods) {
-        if(button == GLFW_MOUSE_BUTTON_MIDDLE && action == GLFW_PRESS) {
+        if((button == GLFW_MOUSE_BUTTON_MIDDLE || button == GLFW_MOUSE_BUTTON_RIGHT) && action == GLFW_PRESS) {
             if(!turning) {
                 turning = true;
                 glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
